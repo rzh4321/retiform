@@ -34,6 +34,11 @@ export default function HomeFeed({ feedType, postsData }) {
     async function fetchAuthuserPostsAndSetPosts() {
       const res = await fetch(`/api/users/${session.user.userId}/posts`);
       const data = await res.json();
+      if (data.error) {
+        setPostsLoading(false);
+        location.reload();
+        return;
+      }
       if (data.posts.length < 10) {
         setEndOfFeed(true);
       }
@@ -44,6 +49,11 @@ export default function HomeFeed({ feedType, postsData }) {
     async function fetchFeedPostsAndSetPosts() {
       const res = await fetch(`/api/users/${session.user.userId}/feed-posts`);
       const data = await res.json();
+      if (data.error) {
+        setPostsLoading(false);
+        location.reload();
+        return;
+      }
       if (data.posts.length < 10) {
         setEndOfFeed(true);
       }
