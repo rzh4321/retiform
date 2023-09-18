@@ -7,9 +7,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function ProfileSection({ edit, stringData }) {
+export default function ProfileSection({ edit, userData }) {
   const { data: session, status } = useSession();
-  const [userData, getUserData] = useState({});
   const [friendRequestStatus, setFriendRequestStatus] = useState("none");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -37,19 +36,16 @@ export default function ProfileSection({ edit, stringData }) {
   }
 
   useEffect(() => {
-    if (userData === undefined || Object.keys(userData).length === 0) {
-      getUserData(JSON.parse(stringData));
-    }
-    if (userData.friendRequestsReceived?.includes(session?.user.userId)) {
+    if (userData?.friendRequestsReceived?.includes(session?.user.userId)) {
       setFriendRequestStatus("sent");
-    } else if (userData.friends?.includes(session?.user.userId)) {
+    } else if (userData?.friends?.includes(session?.user.userId)) {
       setFriendRequestStatus("friends");
     }
     // this user has sent you a FR
-    else if (userData.friendRequestsSent?.includes(session?.user.userId)) {
+    else if (userData?.friendRequestsSent?.includes(session?.user.userId)) {
       setFriendRequestStatus("received");
     }
-  }, [stringData, userData, session, friendRequestStatus]);
+  }, [userData, session, friendRequestStatus]);
 
   async function handleUnfriendClick() {
     setIsLoading(true);
@@ -101,7 +97,7 @@ export default function ProfileSection({ edit, stringData }) {
 
   return (
     <div className={`mx-auto row profile-card`}>
-      {userData.profilePicUrl ? (
+      {userData?.profilePicUrl ? (
         <div
           className={`col m-2 p-0 user-profile-pic-div`}
           data-bs-toggle={edit ? "modal" : ""}
@@ -109,7 +105,7 @@ export default function ProfileSection({ edit, stringData }) {
         >
           <Image
             className={`rounded-circle profile-user-profile-pic`}
-            src={userData.profilePicUrl}
+            src={userData?.profilePicUrl}
             alt="profile pic"
             width={40}
             height={40}
@@ -137,16 +133,16 @@ export default function ProfileSection({ edit, stringData }) {
       )}
       <div className="col my-auto">
         <h1 className="mb-0">
-          <strong>{userData.name}</strong>
+          <strong>{userData?.name}</strong>
         </h1>
-        <div>{`@${userData.username}`}</div>
+        <div>{`@${userData?.username}`}</div>
         <div className="text-secondary">
-          {userData.friends?.length > 1 ? (
+          {userData?.friends?.length > 1 ? (
             <Link
               href={`/users/${userData._id}/friends`}
               className="p-0 mb-0 text-decoration-none"
-            >{`${userData.friends?.length} friends`}</Link>
-          ) : userData.friends?.length === 1 ? (
+            >{`${userData?.friends?.length} friends`}</Link>
+          ) : userData?.friends?.length === 1 ? (
             <Link
               href={`/users/${userData._id}/friends`}
               className="p-0 mb-0 text-decoration-none"
@@ -231,7 +227,7 @@ export default function ProfileSection({ edit, stringData }) {
           <form className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="newPostModalLabel">
-                Unfriend {userData.name}?
+                Unfriend {userData?.name}?
               </h1>
               <button
                 type="button"
