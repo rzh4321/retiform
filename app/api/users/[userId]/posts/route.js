@@ -1,5 +1,5 @@
+import Like from "../../../../../models/Likes";
 import User from "../../../../../models/User";
-import Image from "../../../../../models/Image";
 import Post from "../../../../../models/Post";
 import connectToDB from "../../../../../utils/database";
 import { NextResponse } from "next/server";
