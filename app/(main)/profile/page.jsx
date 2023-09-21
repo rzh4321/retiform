@@ -1,49 +1,54 @@
-'use client'
-
 import ProfileSection from "../../../components/ProfileSection";
 import HomeFeed from "../../../components/HomeFeed";
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import User from "../../../models/User";
+import Post from "../../../models/Post";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../api/auth/[...nextauth]/route";
 
-// async function findUser(userId) {
-//   const user = await User.findById(userId);
-//   return user;
-// }
+async function findUser(userId) {
+  // same thing in api route handler
+  const user = await User.findById(userId).populate(
+    "friends friendRequestsSent friendRequestsReceived",
+  );
+  return user;
+}
 
-// async function getPosts(userId) {
-//   try {
-//     let posts = await fetch(
-//       `https://social-media-eight-rho.vercel.app/api/users/${userId}/posts`,
-//     );
-//     posts = posts.json();
-//     return posts;
-//   } catch (err) {
-//     //console.log("error fecthing users posts: ", err);
-//     throw new Error(err);
-//   }
-// }
+async function getPosts(userId) {
+  try {
+    // same thing in api route handler
+    const posts = await Post.find({ user: userId })
+      .sort({ _id: -1 })
+      .limit(10)
+      .populate("user")
+      .populate({
+        path: "likes",
+        populate: {
+          path: "user",
+        },
+      })
+      .populate({
+        path: "comments",
+        populate: {
+          path: "user",
+        },
+      });
+    return posts;
+  } catch (err) {
+    //console.log("error fecthing users posts: ", err);
+    throw new Error(err);
+  }
+}
 
-export default function ProfilePage({ params }) {
-  const { data: session, status } = useSession();
-  const [postsData, setPostsData] = useState([]);
-  const [user, setUser] = useState();
-  useEffect(() => {
-    if (status === 'loading') return
-    async function setStates() {
-      let res = await fetch(`/api/users/${session.user.userId}`);
-      let data = await res.json();
-      setUser(data.user);
-      res = await fetch(`/api/users/${session.user.userId}/posts`);
-      data = await res.json();
-      setPostsData(data.posts);
-    }
-    setStates();
-  }, [session, status]);
+export default async function ProfilePage({ params }) {
+  const session = await getServerSession(authOptions);
+  const user = await findUser(session.user.userId);
+  const posts = await getPosts(session.user.userId);
+  console.log(user);
 
   return (
     <div className="mt-4">
-      <ProfileSection userData={user} edit={true} />
-      <HomeFeed feedType={"profile"} postsData={postsData} />
+      <ProfileSection stringData={JSON.stringify(user)} edit={true} />
+      <HomeFeed feedType={"profile"} postsData={JSON.stringify(posts)} />
     </div>
   );
 }

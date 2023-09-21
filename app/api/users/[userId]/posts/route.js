@@ -1,4 +1,4 @@
-import Like from "../../../../../models/Likes";
+import Like from "../../../../../models/Like";
 import User from "../../../../../models/User";
 import Post from "../../../../../models/Post";
 import connectToDB from "../../../../../utils/database";

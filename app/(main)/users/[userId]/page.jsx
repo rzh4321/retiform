@@ -4,7 +4,10 @@ import User from "../../../../models/User";
 import Post from "../../../../models/Post";
 
 async function findUser(userId) {
-  const user = await User.findById(userId);
+  // same thing in api route handler
+  const user = await User.findById(userId).populate(
+    "friends friendRequestsSent friendRequestsReceived",
+  );
   return user;
 }
 

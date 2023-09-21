@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 import connectToDB from "../../../../utils/database";
 
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 
 export async function GET() {
   console.log("IN GET");
@@ -26,11 +25,9 @@ export async function POST(req) {
     console.log(
       "already have an acc with this google acc, returning existing user obj",
     );
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     return NextResponse.json({
       message: "Logged in",
       user,
-      token,
     });
   }
   try {
@@ -45,12 +42,8 @@ export async function POST(req) {
       profilePicUrl: profilePicUrl,
     });
     await user.save();
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     console.log("we saved the new user to db. returning status 201 now");
-    return NextResponse.json(
-      { message: "Logged in", user, token },
-      { status: 201 },
-    );
+    return NextResponse.json({ message: "Logged in", user }, { status: 201 });
   } catch (err) {
     console.log("errored: ", err);
     throw new Error("couldnt create and save user to db for some reaosn");

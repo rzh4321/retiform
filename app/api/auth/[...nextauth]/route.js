@@ -18,13 +18,10 @@ export const authOptions = {
       },
       // this will be called when we sign in with normal credentials
       async authorize(credentials, req) {
-        const res = await fetch(
-          `https://social-media-eight-rho.vercel.app/api/auth/login`,
-          {
-            method: "POST",
-            body: JSON.stringify(credentials),
-          },
-        );
+        const res = await fetch(`http://localhost:3000//api/auth/login`, {
+          method: "POST",
+          body: JSON.stringify(credentials),
+        });
         // should either return user object + token, or error
         const data = await res.json();
 
@@ -54,18 +51,17 @@ export const authOptions = {
           profilePicUrl: user.image,
         };
         const res = await fetch(
-          `https://social-media-eight-rho.vercel.app/api/auth/google-login`,
+          `http://localhost:3000//api/auth/google-login`,
           {
             method: "POST",
             body: JSON.stringify(credentials),
             headers: { "Content-Type": "application/json" },
           },
         );
-        // user and token will be returned from api call
+        // user will be returned from api call
         const data = await res.json();
-        // save token and id to user object so it can be used to create jwt and session later
+        // save id to user object so it can be used to create jwt and session later
         user.id = data.user._id;
-        user.token = data.token;
         return true;
       } else if (account.provider === "credentials") {
         // we already have all the necessary data from authorize(), just return true
@@ -79,14 +75,12 @@ export const authOptions = {
       // console.log("user jwt", user);
       // console.log("account jwt", account);
       if (account?.provider === "google") {
-        token.accessToken = user.token;
         token.userId = user.id;
         token.userName = user.name;
         token.userEmail = user.email;
         token.userImage = user.image;
         // console.log("u signed in with google. token is now ", token);
       } else if (account?.provider === "credentials") {
-        token.accessToken = user.token;
         token.userId = user.user._id;
         token.userName = user.user.name;
         token.userEmail = user.user.username;
@@ -100,7 +94,6 @@ export const authOptions = {
       // console.log("IN SESSION FUNCTION");
       // console.log("session is ", session);
       // console.log("token is ", token);
-      session.accessToken = token.accessToken;
       session.user.userId = token.userId;
       session.user.name = token.userName;
       session.user.email = token.userEmail;

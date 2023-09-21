@@ -38,7 +38,10 @@ export async function POST(req) {
   const authRes = await authenticate(username, password);
 
   if (authRes.status) {
-    const token = jwt.sign({ id: authRes.user._id }, process.env.NEXTAUTH_SECRET);
+    const token = jwt.sign(
+      { id: authRes.user._id },
+      process.env.NEXTAUTH_SECRET,
+    );
     return NextResponse.json({
       message: "Logged in",
       user: authRes.user,
