@@ -18,7 +18,7 @@ export const authOptions = {
       },
       // this will be called when we sign in with normal credentials
       async authorize(credentials, req) {
-        const res = await fetch(`http://localhost:3000//api/auth/login`, {
+        const res = await fetch(`https://retiform2.vercel.app/api/auth/login`, {
           method: "POST",
           body: JSON.stringify(credentials),
         });
@@ -51,7 +51,7 @@ export const authOptions = {
           profilePicUrl: user.image,
         };
         const res = await fetch(
-          `http://localhost:3000//api/auth/google-login`,
+          `https://retiform2.vercel.app/api/auth/google-login`,
           {
             method: "POST",
             body: JSON.stringify(credentials),
