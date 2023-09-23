@@ -47,7 +47,6 @@ export default async function ProfilePage({ params }) {
   const session = await getServerSession(authOptions);
   const user = await findUser(session.user.userId);
   const posts = await getPosts(session.user.userId);
-  console.log(user);
 
   return (
     <div className="mt-4">
