@@ -2,6 +2,7 @@ import ProfileSection from "../../../components/ProfileSection";
 import HomeFeed from "../../../components/HomeFeed";
 import User from "../../../models/User";
 import Post from "../../../models/Post";
+import connectToDB from "../../../utils/database";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/route";
 
@@ -40,6 +41,7 @@ async function getPosts(userId) {
 }
 
 export default async function ProfilePage({ params }) {
+  await connectToDB();
   const session = await getServerSession(authOptions);
   const user = await findUser(session.user.userId);
   const posts = await getPosts(session.user.userId);

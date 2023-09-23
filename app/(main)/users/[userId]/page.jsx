@@ -1,6 +1,7 @@
 import ProfileSection from "../../../../components/ProfileSection";
 import HomeFeed from "../../../../components/HomeFeed";
 import User from "../../../../models/User";
+import connectToDB from "../../../../utils/database";
 import Post from "../../../../models/Post";
 
 async function findUser(userId) {
@@ -35,6 +36,7 @@ async function getPosts(userId) {
   }
 }
 export default async function UserPage({ params }) {
+  await connectToDB();
   const user = await findUser(params.userId);
   const posts = await getPosts(params.userId);
   return (

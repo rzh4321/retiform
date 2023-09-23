@@ -1,4 +1,5 @@
 import User from "../../../models/User";
+import connectToDB from "../../../utils/database";
 import FriendsSection from "../../../components/FriendsSection";
 
 async function getUsersFromFilter(filter, userId) {
@@ -18,6 +19,7 @@ async function getUsersFromFilter(filter, userId) {
 }
 
 export default async function Search({ searchParams }) {
+  await connectToDB();
   const userId = searchParams.userId;
   const users = await getUsersFromFilter(searchParams.filter, userId);
   return (
