@@ -2,6 +2,7 @@ import ProfileSection from "../../../components/ProfileSection";
 import HomeFeed from "../../../components/HomeFeed";
 import User from "../../../models/User";
 import Post from "../../../models/Post";
+import Like from "../../../models/Like";
 import connectToDB from "../../../utils/database";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/route";

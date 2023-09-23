@@ -79,11 +79,14 @@ export default function HomeFeed({ feedType, postsData }) {
     }
 
     function setUserPosts() {
-      if (posts.length < 10) {
+      setPostsLoading(false);
+      const parsedPosts = JSON.parse(postsData);
+      if (parsedPosts.length < 10) {
         setEndOfFeed(true);
       }
-      setPostsLoading(false);
-      setPosts(JSON.parse(postsData));
+      setPosts(parsedPosts);
+      console.log('PARSED POSTS: ', parsedPosts);
+      console.log('THEIR TYPE IS ', typeof parsedPosts)
     }
 
     if (status === "loading") return;

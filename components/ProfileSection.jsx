@@ -68,10 +68,9 @@ export default function ProfileSection({ edit, stringData }) {
     const res = await fetch(`/api/users/${userData._id}/unfriend`, {
       method: "DELETE",
     });
-    console.log("res is ", res);
+    //console.log("res is ", res);
     if (res.status === 200) {
       setFriendRequestStatus("none");
-      console.log("this is line after set. status is ", friendRequestStatus);
       location.reload();
     } else {
       setError(true);
