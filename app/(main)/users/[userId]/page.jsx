@@ -14,6 +14,7 @@ async function findUser(userId) {
 
 async function getPosts(userId) {
   try {
+    // same thing in api route handler
     const posts = await Post.find({ user: userId })
       .sort({ _id: -1 })
       .limit(10)
@@ -32,9 +33,13 @@ async function getPosts(userId) {
       });
     return posts;
   } catch (err) {
-    console.log(err);
+    //console.log("error fecthing users posts: ", err);
+    throw new Error(err);
   }
 }
+
+
+
 export default async function UserPage({ params }) {
   await connectToDB();
   const user = await findUser(params.userId);

@@ -42,7 +42,7 @@ export default function HomeFeed({ feedType, postsData }) {
     async function fetchAuthuserPostsAndSetPosts() {
       setPostsLoading(false);
       // console.log('POSTSDATA IS ', postsData)
-      // console.log('THEIR TYPE IS ', typeof postsData)
+      //console.log('THEIR TYPE IS ', typeof postsData)
       const parsedPosts = JSON.parse(postsData);
       if (parsedPosts.length < 10) {
         setEndOfFeed(true);
@@ -50,6 +50,7 @@ export default function HomeFeed({ feedType, postsData }) {
       setPosts(parsedPosts);
       // console.log('PARSED POSTS: ', parsedPosts);
       // console.log('THEIR TYPE IS ', typeof parsedPosts)
+      setPostsLoading(false);
     }
 
     async function fetchFeedPostsAndSetPosts() {
@@ -94,7 +95,8 @@ export default function HomeFeed({ feedType, postsData }) {
       }
       setPosts(parsedPosts);
       // console.log('PARSED POSTS: ', parsedPosts);
-      // console.log('THEIR TYPE IS ', typeof parsedPosts)
+      console.log(typeof parsedPosts)
+      setPostsLoading(false);
     }
 
     if (status === "loading") return;
