@@ -23,7 +23,8 @@ export default function HomeFeed({ feedType, postsData }) {
   const [postsLoading, setPostsLoading] = useState(true);
   const [authuserData, setAuthuserData] = useState({});
 
-  // Fetch authuser from session.user.userId and pass along the authuserData
+  // Fetch authuser from session.user.userId and pass along the authuserData.
+  // TODO: also move this to a server component along with posts data
   useEffect(() => {
     async function fetchAuthuser() {
       const res = await fetch(`/api/users/${session.user.userId}`);
