@@ -56,7 +56,7 @@ export default async function Home() {
   const posts = await getPosts();
   return (
     <>
-      <HomeFeed feedType={"all"} postsData={JSON.stringify(posts)} authData={JSON.stringify(user)} />
+      <HomeFeed feedType={"all"} postsData={JSON.stringify(posts)} authuserData={JSON.stringify(user)} />
     </>
   );
 }

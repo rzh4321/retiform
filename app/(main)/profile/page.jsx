@@ -58,7 +58,7 @@ export default async function ProfilePage({ params }) {
   return (
     <div className="mt-4">
       <ProfileSection stringData={JSON.stringify(user)} edit={true} />
-      <HomeFeed feedType={"profile"} postsData={JSON.stringify(posts)} authData={JSON.stringify(user)} />
+      <HomeFeed feedType={"profile"} postsData={JSON.stringify(posts)} authuserData={JSON.stringify(user)} />
     </div>
   );
 }

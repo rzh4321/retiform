@@ -10,18 +10,17 @@ import NewPostCard from "./NewPostCard";
 import FeedList from "./FeedList";
 
 // feedType: 'all' || 'home' || 'profile' || 'user'
-export default function HomeFeed({ feedType, postsData, authData }) {
+export default function HomeFeed({ feedType, postsData, authuserData }) {
   const { data: session, status } = useSession();
   const [posts, setPosts] = useState([]);
   const [endOfFeed, setEndOfFeed] = useState(false);
   const [postsLoading, setPostsLoading] = useState(true);
-  const [authuserData, setAuthuserData] = useState({});
 
 
-  useEffect(() => {
-      const parsedUser = JSON.parse(authData);
-      setAuthuserData(parsedUser)
-  }, [authData]);
+  // useEffect(() => {
+  //     const parsedUser = JSON.parse(authData);
+  //     setAuthuserData(parsedUser)
+  // }, [authData]);
 
   useEffect(() => {
     async function getPosts() {
@@ -64,7 +63,7 @@ export default function HomeFeed({ feedType, postsData, authData }) {
       {(feedType === "all" || feedType === "home") && (
         <div className="border-top mb-4"></div>
       )}
-      {feedType !== "user" && <NewPostCard authuserData={authuserData} />}
+      {feedType !== "user" && <NewPostCard authuserData={JSON.parse(authuserData)} />}
       {feedType === "profile" && (
         <h3 className={`mx-auto mt-4 mb-0 feed-card`}>Your posts</h3>
       )}
@@ -72,7 +71,7 @@ export default function HomeFeed({ feedType, postsData, authData }) {
         posts={posts}
         setPosts={setPosts}
         postsLoading={postsLoading}
-        authuserData={authuserData}
+        authuserData={JSON.parse(authuserData)}
         feedType={feedType}
         endOfFeed={endOfFeed}
       />
