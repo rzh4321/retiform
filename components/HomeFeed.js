@@ -16,7 +16,7 @@ import FeedList from "./FeedList";
 // to HomeFeed client component
 
 // feedType: 'all' || 'home' || 'profile' || 'user'
-export default function HomeFeed({ feedType, postsData }) {
+export default function HomeFeed({ feedType, postsData, authData }) {
   const { data: session, status } = useSession();
   const [posts, setPosts] = useState([]);
   const [endOfFeed, setEndOfFeed] = useState(false);

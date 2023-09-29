@@ -5,12 +5,13 @@ import { DateTime } from "luxon";
 import Link from "next/link";
 
 export default function FeedPostCardLikeSection({ post, comments }) {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   // likeStatus: 'unliked' || 'liked' || 'loading' || 'error'
   const [likeStatus, setLikeStatus] = useState("unliked");
   const [likes, setLikes] = useState(post.likes);
 
   useEffect(() => {
+    if (status === 'loading') return;
     if (post.likes.length > 0) {
       console.log(post.likes);
       // see if userId is in likes array
@@ -20,7 +21,7 @@ export default function FeedPostCardLikeSection({ post, comments }) {
         ? setLikeStatus("liked")
         : setLikeStatus("unliked");
     }
-  }, [post.likes, session.user.userId]);
+  }, [post.likes, status, session]);
 
   const handleClickComment = () => {
     const commentInputElement = document.getElementById(
