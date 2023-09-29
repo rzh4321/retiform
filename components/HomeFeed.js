@@ -9,12 +9,6 @@ import Link from "next/link";
 import NewPostCard from "./NewPostCard";
 import FeedList from "./FeedList";
 
-// TODO: instead of making fetch api calls, get all the necessary 
-// data inside of server component and pass it to this client component
-// through props as JSON, then parse it back to an object. For ex, to render
-// home page, perform DB operations in home/page.jsx and pass data as props
-// to HomeFeed client component
-
 // feedType: 'all' || 'home' || 'profile' || 'user'
 export default function HomeFeed({ feedType, postsData, authData }) {
   const { data: session, status } = useSession();
@@ -23,18 +17,11 @@ export default function HomeFeed({ feedType, postsData, authData }) {
   const [postsLoading, setPostsLoading] = useState(true);
   const [authuserData, setAuthuserData] = useState({});
 
-  // Fetch authuser from session.user.userId and pass along the authuserData.
-  // TODO: also move this to a server component along with posts data
+
   useEffect(() => {
-    async function fetchAuthuser() {
-      const res = await fetch(`/api/users/${session.user.userId}`);
-      const data = await res.json();
-      setAuthuserData(data.user);
-    }
-    if (status === "loading") return;
-    // no need to check for session, already did in navbar
-    fetchAuthuser();
-  }, [session, status]);
+      const parsedUser = JSON.parse(authData);
+      setAuthuserData(parsedUser)
+  }, [authData]);
 
   useEffect(() => {
     async function getPosts() {
