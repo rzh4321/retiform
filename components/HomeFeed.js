@@ -40,7 +40,7 @@ export default function HomeFeed({ feedType, postsData }) {
   // code to server components to work with DB directly, all the needed
   // data will be passed as a prop so I can remove these functions
   useEffect(() => {
-    async function fetchFeedPosts() {
+    async function fetchProfilePosts() {
       setPostsLoading(false);
       // console.log('POSTSDATA IS ', postsData)
       //console.log('THEIR TYPE IS ', typeof postsData)
@@ -66,18 +66,25 @@ export default function HomeFeed({ feedType, postsData }) {
 
     async function fetchAllPostsAndSetPosts() {
       // Fetch 10 of all posts starting from the most recent one
-      const res = await fetch(`/api/posts`);
-      const data = await res.json();
-      if (data.error) {
-        setPostsLoading(false);
-        location.reload();
-        return;
-      }
-      // less than 10 posts returned means we already reached end of feed
-      if (data.posts?.length < 10) {
+      // const res = await fetch(`/api/posts`);
+      // const data = await res.json();
+      // if (data.error) {
+      //   setPostsLoading(false);
+      //   location.reload();
+      //   return;
+      // }
+      // // less than 10 posts returned means we already reached end of feed
+      // if (data.posts?.length < 10) {
+      //   setEndOfFeed(true);
+      // }
+      // setPosts(data.posts);
+      // setPostsLoading(false);
+      setPostsLoading(false);
+      const parsedPosts = JSON.parse(postsData);
+      if (parsedPosts.length < 10) {
         setEndOfFeed(true);
       }
-      setPosts(data.posts);
+      setPosts(parsedPosts);
       setPostsLoading(false);
     }
 
@@ -102,7 +109,7 @@ export default function HomeFeed({ feedType, postsData }) {
         fetchHomePosts();
         break;
       case "profile":
-        fetchFeedPosts();
+        fetchProfilePosts();
         break;
       case "all":
         fetchAllPostsAndSetPosts();
