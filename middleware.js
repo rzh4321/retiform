@@ -14,7 +14,7 @@ export async function middleware(request) {
     const parsedUrl = url.parse(referer);
     const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
     console.log('requesting resource ', request.url, ' ITS FROM ', baseUrl);
-    if (baseUrl === 'http://localhost:3000' || baseUrl === 'https://retiform.vercel.app' || baseUrl === 'https://retiform2.vercel.app/') {
+    if (baseUrl === 'http://localhost:3000' || baseUrl === 'https://retiform.vercel.app' || baseUrl === 'https://retiform2.vercel.app') {
       return NextResponse.next();
     }
     return NextResponse.json('no');
