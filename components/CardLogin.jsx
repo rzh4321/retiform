@@ -1,13 +1,17 @@
 "use client";
 
-import { Dispatch, SetStateAction, useState } from "react";
+import { useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
 
-export default function CardLogin({ switchToSignup }) {
+export default function CardLogin({ switchToSignup, loading }) {
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginFailed, setLoginFailed] = useState(false);
+
+  useEffect(() => {
+    console.log('loading is ', loading)
+  })
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -88,11 +92,11 @@ export default function CardLogin({ switchToSignup }) {
         <button
           type="submit"
           className="btn btn-primary w-100"
-          disabled={loginLoading}
+          disabled={loginLoading || loading === 'loading'}
           onClick={handleLogin}
         >
-          {!loginLoading && "Log in"}
-          {loginLoading && (
+          {!loginLoading && loading !== 'loading' && "Log in"}
+          {(loginLoading || (loading === 'loading')) && (
             <div>
               <span
                 className="spinner-border spinner-border-sm"
@@ -107,6 +111,7 @@ export default function CardLogin({ switchToSignup }) {
         <button
           className="btn btn-success mt-3 mb-2 w-100"
           onClick={handleSwitchSignup}
+          disabled={loginLoading || loading === 'loading'}
         >
           Create an account
         </button>
@@ -122,6 +127,7 @@ export default function CardLogin({ switchToSignup }) {
         onClick={() => {
           signIn("google", { callbackUrl: "/home" });
         }}
+        disabled={loginLoading || loading === 'loading'}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -152,6 +158,7 @@ export default function CardLogin({ switchToSignup }) {
       <button
         className="btn btn-outline-primary mt-3 w-100"
         onClick={handleVisitorLogin}
+        disabled={loginLoading || loading === 'loading'}
       >
         Log in as Visitor
       </button>

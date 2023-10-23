@@ -11,15 +11,16 @@ import "../../styles/Home.css";
 
 const SignIn = () => {
   const [signupCard, setSignupCard] = useState(false);
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
+    console.log(status)
     if (session && session.user) {
       console.log("detected ur already logged in, redirecting to home page");
       return router.push("/home");
     }
-  }, [router, session]);
+  }, [router, session, status]);
 
   return (
     <>
@@ -31,9 +32,9 @@ const SignIn = () => {
             </div>
             <div className="col-sm">
               {signupCard ? (
-                <CardSignup switchToSignup={setSignupCard} />
+                <CardSignup switchToSignup={setSignupCard} loading={status} />
               ) : (
-                <CardLogin switchToSignup={setSignupCard} />
+                <CardLogin switchToSignup={setSignupCard} loading={status} />
               )}
             </div>
           </div>

@@ -28,7 +28,7 @@ import { signIn } from "next-auth/react";
 
 // type apiRes = apiResError | apiResSuccess;
 
-export default function CardSignup({ switchToSignup }) {
+export default function CardSignup({ switchToSignup, loading }) {
   const [nameInput, setNameInput] = useState("");
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");

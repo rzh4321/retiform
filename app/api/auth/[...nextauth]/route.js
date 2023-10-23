@@ -18,7 +18,8 @@ export const authOptions = {
       },
       // this will be called when we sign in with normal credentials
       async authorize(credentials, req) {
-        const res = await fetch(`https://retiform2.vercel.app/api/auth/login`, {
+        console.log('in authorize')
+        const res = await fetch(`https://retiform.vercel.app/api/auth/login`, {
           method: "POST",
           body: JSON.stringify(credentials),
         });
