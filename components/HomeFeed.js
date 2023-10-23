@@ -16,12 +16,6 @@ export default function HomeFeed({ feedType, postsData, authuserData }) {
   const [endOfFeed, setEndOfFeed] = useState(false);
   const [postsLoading, setPostsLoading] = useState(true);
 
-
-  // useEffect(() => {
-  //     const parsedUser = JSON.parse(authData);
-  //     setAuthuserData(parsedUser)
-  // }, [authData]);
-
   useEffect(() => {
     async function getPosts() {
       setPostsLoading(false);
